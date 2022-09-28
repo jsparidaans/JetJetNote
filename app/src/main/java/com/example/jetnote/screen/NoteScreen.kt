@@ -1,5 +1,6 @@
 package com.example.jetnote.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ fun NoteScreen(
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    val context = LocalContext.current
     Column(modifier = Modifier.padding(6.dp)) {
         TopAppBar(
             title = {
@@ -73,9 +76,11 @@ fun NoteScreen(
             NoteButton(text = "Save", onClick = {
                 if (title.isNotEmpty() && description.isNotEmpty()) {
                     // save
+                    onAddNote(Note(title = title, description = description))
                     // clear strings
                     title = ""
                     description = ""
+                    Toast.makeText(context, "Note added", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -84,7 +89,7 @@ fun NoteScreen(
 
         LazyColumn {
             items(notes) { note ->
-                NoteRow(note = note, onNoteClicked = {})
+                NoteRow(note = note, onNoteClicked = onRemoveNote)
             }
         }
     }
@@ -107,7 +112,7 @@ fun NoteRow(
         Column(
             modifier = Modifier
                 .padding(horizontal = 14.dp, vertical = 6.dp)
-                .clickable { }, horizontalAlignment = Alignment.Start
+                .clickable { onNoteClicked(note) }, horizontalAlignment = Alignment.Start
         ) {
             Text(
                 text = note.title,
