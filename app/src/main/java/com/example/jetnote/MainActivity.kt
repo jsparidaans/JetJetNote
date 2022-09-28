@@ -22,7 +22,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    NoteScreen()
+                    NoteScreen(
+                        notes = emptyList(),
+                        onAddNote = {},
+                        onRemoveNote = {},
+                    )
                 }
             }
         }
@@ -34,6 +38,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     JetNoteTheme {
-        NoteScreen()
+        NoteScreen(
+            notes = emptyList(),
+            onAddNote = {},
+            onRemoveNote = {},
+        )
     }
 }
