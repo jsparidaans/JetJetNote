@@ -26,7 +26,6 @@ class NoteViewModel
                 .collect { notes ->
                     if (notes.isEmpty()) {
                         Log.d("TAG", "Notes: is empty")
-                        return@collect
                     }
                     _noteList.value = notes
                 }
